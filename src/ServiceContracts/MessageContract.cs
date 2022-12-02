@@ -53,7 +53,24 @@ namespace ServiceContracts
         }
 
         /// <summary>
-        /// Convert failreason and message messagecontract
+        /// Convert failreason to messagecontract
+        /// </summary>
+        /// <param name="failedReasonType"></param>
+        public static implicit operator MessageContract(FailedReasonType failedReasonType)
+        {
+            return new MessageContract()
+            {
+                IsSuccess = false,
+                Error = new ErrorContract()
+                {
+                    Message = failedReasonType.ToString(),
+                    FailedReasonType = failedReasonType
+                }
+            };
+        }
+
+        /// <summary>
+        /// Convert failreason and message to messagecontract
         /// </summary>
         /// <param name="result"></param>
         public static implicit operator MessageContract((FailedReasonType FailedReasonType, string Message) result)
