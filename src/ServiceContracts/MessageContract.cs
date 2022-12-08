@@ -87,22 +87,6 @@ namespace ServiceContracts
         }
 
         /// <summary>
-        /// convert text to messagecontarct
-        /// </summary>
-        /// <param name="result"></param>
-        public static implicit operator MessageContract(string result)
-        {
-            return new MessageContract()
-            {
-                IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    Message = result
-                }
-            };
-        }
-
-        /// <summary>
         /// Get string result for debugger
         /// </summary>
         /// <returns></returns>
@@ -240,23 +224,6 @@ namespace ServiceContracts
                     StackTrace = Environment.StackTrace,
                     Message = exception.Message,
                     Details = exception.ToString()
-                }
-            };
-        }
-
-        /// <summary>
-        /// Convert Message and Details to MessageContract<typeparamref name="T"/>
-        /// </summary>
-        /// <param name="data"></param>
-        public static implicit operator MessageContract<T>((string Message, string Details) data)
-        {
-            return new MessageContract<T>()
-            {
-                IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    Message = data.Message,
-                    Details = data.Details
                 }
             };
         }

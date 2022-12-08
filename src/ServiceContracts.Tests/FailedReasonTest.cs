@@ -7,5 +7,11 @@ namespace ServiceContracts.Tests
         {
             return FailedReasonType.InternalError;
         }
+
+        [Fact]
+        public MessageContract CheckFailedReasonWithMessageToMessageContract()
+        {
+            return (FailedReasonType.InternalError, "Server has internal error");
+        }
     }
 }
