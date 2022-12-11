@@ -9,6 +9,12 @@ namespace ServiceContracts.Tests
         }
 
         [Fact]
+        public MessageContract CheckFailedWebServiceNotWorkingReasonToMessageContract()
+        {
+            return FailedReasonType.WebServiceNotWorking;
+        }
+
+        [Fact]
         public MessageContract CheckFailedReasonWithMessageToMessageContract()
         {
             return (FailedReasonType.InternalError, "Server has internal error");

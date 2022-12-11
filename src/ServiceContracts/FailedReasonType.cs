@@ -60,6 +60,10 @@
         /// <summary>
         /// Stream has error or corrupted
         /// </summary>
-        StreamError = 13
+        StreamError = 13,
+        /// <summary>
+        /// When the external webservice has an error
+        /// </summary>
+        WebServiceNotWorking = 14,
     }
 }
