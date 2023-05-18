@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceContracts\EasyMicroservices.ServiceContracts.csproj" />
+    <ProjectReference Include="..\EasyMicroservices.ServiceContracts\EasyMicroservices.ServiceContracts.csproj" />
   </ItemGroup>
 
 </Project>
