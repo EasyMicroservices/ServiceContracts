@@ -94,6 +94,7 @@ namespace ServiceContracts
         {
             return $"{IsSuccess}\r\n{Error}";
         }
+
     }
 
     /// <summary>
@@ -235,6 +236,17 @@ namespace ServiceContracts
         public override string ToString()
         {
             return base.ToString();
+        }
+
+        /// <summary>
+        /// Thorw an excpetion if the result is not success
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public virtual T ThorwsIfFailed()
+        {
+            if (!IsSuccess)
+                throw new Exception(ToString());
+            return Result;
         }
     }
 }
