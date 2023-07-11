@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace EasyMicroservices.ServiceContracts
 {
@@ -17,6 +18,101 @@ namespace EasyMicroservices.ServiceContracts
             {
                 return IsSuccess && Result?.Count > 0;
             }
+        }
+
+        /// <summary>
+        /// Convert T to MessageContractList<typeparamref name="T"/>
+        /// </summary>
+        /// <param name="result"></param>
+        public static implicit operator MessageContractList<T>(List<T> result)
+        {
+            if (result == null)
+            {
+                return new MessageContractList<T>()
+                {
+                    IsSuccess = false,
+                    Error = new ErrorContract()
+                    {
+                        FailedReasonType = FailedReasonType.NotFound,
+                        StackTrace = Environment.StackTrace,
+                        Message = "یافت نشد."
+                    }
+                };
+            }
+            return new MessageContractList<T>()
+            {
+                IsSuccess = true,
+                Result = result
+            };
+        }
+
+        /// <summary>
+        /// Convert MessageContractList type
+        /// </summary>
+        /// <typeparam name="TContract"></typeparam>
+        /// <returns></returns>
+        public MessageContractList<TContract> ToAnotherListContract<TContract>()
+        {
+            return new MessageContractList<TContract>()
+            {
+                IsSuccess = IsSuccess,
+                Error = Error
+            };
+        }
+
+        /// <summary>
+        /// Convert failed reason and message to MessageContractList
+        /// </summary>
+        /// <param name="details"></param>
+        public static implicit operator MessageContractList<T>((FailedReasonType FailedReasonType, string Message) details)
+        {
+            return new MessageContractList<T>()
+            {
+                IsSuccess = false,
+                Error = new ErrorContract()
+                {
+                    FailedReasonType = details.FailedReasonType,
+                    StackTrace = Environment.StackTrace,
+                    Message = details.Message
+                }
+            };
+        }
+
+        /// <summary>
+        /// Convert FailedReasonType to MessageContractList<typeparamref name="T"/>
+        /// </summary>
+        /// <param name="failedReasonType"></param>
+        public static implicit operator MessageContractList<T>(FailedReasonType failedReasonType)
+        {
+            return new MessageContractList<T>()
+            {
+                IsSuccess = false,
+                Error = new ErrorContract()
+                {
+                    FailedReasonType = failedReasonType,
+                    StackTrace = Environment.StackTrace,
+                    Message = failedReasonType.ToString()
+                }
+            };
+        }
+
+        /// <summary>
+        /// Convert Exception To MessageContractList<typeparamref name="T"/>
+        /// </summary>
+        /// <param name="exception"></param>
+        public static implicit operator MessageContractList<T>(Exception exception)
+        {
+            return new MessageContractList<T>()
+            {
+                IsSuccess = false,
+                Error = new ErrorContract()
+                {
+                    FailedReasonType = FailedReasonType.InternalError,
+                    StackTrace = Environment.StackTrace,
+                    Message = exception.Message,
+                    Details = exception.ToString()
+                }
+            };
         }
     }
 }
