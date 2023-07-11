@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EasyMicroservices.ServiceContracts
 {
@@ -41,6 +42,24 @@ namespace EasyMicroservices.ServiceContracts
         public static bool TryGetResult<T>(this MessageContract<T> messageContract, out T result)
         {
             if (messageContract)
+            {
+                result = messageContract.Result;
+                return true;
+            }
+            result = default;
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="messageContract"></param>
+        /// <param name="result"></param>
+        /// <returns>true if success and has items</returns>
+        public static bool TryGetResult<T>(this MessageContractList<T> messageContract, out List<T> result)
+        {
+            if (messageContract.HasItems)
             {
                 result = messageContract.Result;
                 return true;
