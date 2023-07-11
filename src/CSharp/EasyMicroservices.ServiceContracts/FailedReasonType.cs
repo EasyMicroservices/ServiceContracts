@@ -1,4 +1,4 @@
-﻿namespace ServiceContracts
+﻿namespace EasyMicroservices.ServiceContracts
 {
     /// <summary>
     /// Reason type when service has response erros
