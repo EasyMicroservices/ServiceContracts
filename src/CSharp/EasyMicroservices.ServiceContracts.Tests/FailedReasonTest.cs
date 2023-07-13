@@ -1,4 +1,4 @@
-namespace ServiceContracts.Tests
+namespace EasyMicroservices.ServiceContracts.Tests
 {
     public class FailedReasonTest
     {

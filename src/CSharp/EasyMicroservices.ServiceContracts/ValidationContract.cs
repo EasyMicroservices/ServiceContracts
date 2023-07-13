@@ -1,4 +1,4 @@
-﻿namespace ServiceContracts
+﻿namespace EasyMicroservices.ServiceContracts
 {
     /// <summary>
     /// data of validation means
