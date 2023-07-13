@@ -7,7 +7,7 @@ namespace EasyMicroservices.ServiceContracts
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class MessageContractList<T> : MessageContract<List<T>>
+    public class ListMessageContract<T> : MessageContract<List<T>>
     {
         /// <summary>
         /// when IsSuccess = true and Result has any items
@@ -24,11 +24,11 @@ namespace EasyMicroservices.ServiceContracts
         /// Convert T to MessageContractList<typeparamref name="T"/>
         /// </summary>
         /// <param name="result"></param>
-        public static implicit operator MessageContractList<T>(List<T> result)
+        public static implicit operator ListMessageContract<T>(List<T> result)
         {
             if (result == null)
             {
-                return new MessageContractList<T>()
+                return new ListMessageContract<T>()
                 {
                     IsSuccess = false,
                     Error = new ErrorContract()
@@ -39,7 +39,7 @@ namespace EasyMicroservices.ServiceContracts
                     }
                 };
             }
-            return new MessageContractList<T>()
+            return new ListMessageContract<T>()
             {
                 IsSuccess = true,
                 Result = result
@@ -51,9 +51,9 @@ namespace EasyMicroservices.ServiceContracts
         /// </summary>
         /// <typeparam name="TContract"></typeparam>
         /// <returns></returns>
-        public MessageContractList<TContract> ToAnotherListContract<TContract>()
+        public ListMessageContract<TContract> ToAnotherListContract<TContract>()
         {
-            return new MessageContractList<TContract>()
+            return new ListMessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
                 Error = Error
@@ -64,9 +64,9 @@ namespace EasyMicroservices.ServiceContracts
         /// Convert failed reason and message to MessageContractList
         /// </summary>
         /// <param name="details"></param>
-        public static implicit operator MessageContractList<T>((FailedReasonType FailedReasonType, string Message) details)
+        public static implicit operator ListMessageContract<T>((FailedReasonType FailedReasonType, string Message) details)
         {
-            return new MessageContractList<T>()
+            return new ListMessageContract<T>()
             {
                 IsSuccess = false,
                 Error = new ErrorContract()
@@ -82,9 +82,9 @@ namespace EasyMicroservices.ServiceContracts
         /// Convert FailedReasonType to MessageContractList<typeparamref name="T"/>
         /// </summary>
         /// <param name="failedReasonType"></param>
-        public static implicit operator MessageContractList<T>(FailedReasonType failedReasonType)
+        public static implicit operator ListMessageContract<T>(FailedReasonType failedReasonType)
         {
-            return new MessageContractList<T>()
+            return new ListMessageContract<T>()
             {
                 IsSuccess = false,
                 Error = new ErrorContract()
@@ -100,9 +100,9 @@ namespace EasyMicroservices.ServiceContracts
         /// Convert Exception To MessageContractList<typeparamref name="T"/>
         /// </summary>
         /// <param name="exception"></param>
-        public static implicit operator MessageContractList<T>(Exception exception)
+        public static implicit operator ListMessageContract<T>(Exception exception)
         {
-            return new MessageContractList<T>()
+            return new ListMessageContract<T>()
             {
                 IsSuccess = false,
                 Error = new ErrorContract()

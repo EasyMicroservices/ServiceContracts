@@ -57,7 +57,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <param name="messageContract"></param>
         /// <param name="result"></param>
         /// <returns>true if success and has items</returns>
-        public static bool TryGetResult<T>(this MessageContractList<T> messageContract, out List<T> result)
+        public static bool TryGetResult<T>(this ListMessageContract<T> messageContract, out List<T> result)
         {
             if (messageContract.HasItems)
             {
