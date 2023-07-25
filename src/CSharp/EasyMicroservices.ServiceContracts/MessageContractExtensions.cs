@@ -54,6 +54,28 @@ namespace EasyMicroservices.ServiceContracts
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TContract"></typeparam>
+        /// <param name="messageContract"></param>
+        /// <param name="newResult"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryGetResult<T, TContract>(this MessageContract<T> messageContract, out T result, out MessageContract<TContract> newResult)
+        {
+            if (messageContract)
+            {
+                newResult = default;
+                result = messageContract.Result;
+                return true;
+            }
+            newResult = messageContract.ToContract<TContract>();
+            result = default;
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="messageContract"></param>
         /// <param name="result"></param>
         /// <returns>true if success and has items</returns>
@@ -64,6 +86,28 @@ namespace EasyMicroservices.ServiceContracts
                 result = messageContract.Result;
                 return true;
             }
+            result = default;
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TContract"></typeparam>
+        /// <param name="messageContract"></param>
+        /// <param name="newResult"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryGetResult<T, TContract>(this ListMessageContract<T> messageContract, out List<T> result, out ListMessageContract<TContract> newResult)
+        {
+            if (messageContract)
+            {
+                newResult = default;
+                result = messageContract.Result;
+                return true;
+            }
+            newResult = messageContract.ToAnotherListContract<TContract>();
             result = default;
             return false;
         }
