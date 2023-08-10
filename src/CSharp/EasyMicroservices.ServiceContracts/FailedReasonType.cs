@@ -65,5 +65,14 @@
         /// When the external webservice has an error
         /// </summary>
         WebServiceNotWorking = 14,
+        /// <summary>
+        /// request data is not valid
+        /// username or password incorrent
+        /// </summary>
+        Incorrect = 15,
+        /// <summary>
+        /// operation failed successfully :)
+        /// </summary>
+        OperationFailed = 16
     }
 }
