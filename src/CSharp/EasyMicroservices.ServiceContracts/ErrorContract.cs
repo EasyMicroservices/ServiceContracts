@@ -20,6 +20,10 @@ namespace EasyMicroservices.ServiceContracts
         /// </summary>
         public string Message { get; set; }
         /// <summary>
+        /// 
+        /// </summary>
+        public string EndUserMessage { get; set; }
+        /// <summary>
         /// Detailed message of error 
         /// </summary>
         public string Details { get; set; }
