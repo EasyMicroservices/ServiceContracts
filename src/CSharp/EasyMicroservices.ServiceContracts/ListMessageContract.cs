@@ -131,5 +131,14 @@ namespace EasyMicroservices.ServiceContracts
                 }
             };
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"{IsSuccess} {Result?.Count}\r\n{Error}";
+        }
     }
 }

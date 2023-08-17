@@ -93,7 +93,5 @@ namespace EasyMicroservices.ServiceContracts
         {
             return $"{IsSuccess}\r\n{Error}";
         }
-
     }
-
 }
