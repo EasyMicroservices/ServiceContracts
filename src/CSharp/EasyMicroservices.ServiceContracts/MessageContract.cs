@@ -69,27 +69,10 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// Convert MessageContract type
         /// </summary>
-        /// <typeparam name="TContract"></typeparam>
         /// <returns></returns>
-        public MessageContract<TContract> ToContract<TContract>()
+        public MessageContract<T> ToContract()
         {
-            return new MessageContract<TContract>()
-            {
-                IsSuccess = IsSuccess,
-                Error = Error
-            };
-        }
-
-        /// <summary>
-        /// Convert MessageContract type
-        /// </summary>
-        /// <typeparam name="TContract"></typeparam>
-        /// <returns></returns>
-        public MessageContract<TContract> ToContract<TContract>(string customMessage)
-        {
-            if (Error != null)
-                Error.Message = customMessage;
-            return new MessageContract<TContract>()
+            return new MessageContract<T>()
             {
                 IsSuccess = IsSuccess,
                 Error = Error
