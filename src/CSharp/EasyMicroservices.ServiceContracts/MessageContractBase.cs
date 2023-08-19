@@ -86,6 +86,66 @@ namespace EasyMicroservices.ServiceContracts
         }
 
         /// <summary>
+        /// Convert MessageContract type
+        /// </summary>
+        /// <typeparam name="TContract"></typeparam>
+        /// <returns></returns>
+        public MessageContract<TContract> ToContract<TContract>()
+        {
+            return new MessageContract<TContract>()
+            {
+                IsSuccess = IsSuccess,
+                Error = Error
+            };
+        }
+
+        /// <summary>
+        /// Convert ListMessageContract type
+        /// </summary>
+        /// <typeparam name="TContract"></typeparam>
+        /// <returns></returns>
+        public ListMessageContract<TContract> ToListContract<TContract>()
+        {
+            return new ListMessageContract<TContract>()
+            {
+                IsSuccess = IsSuccess,
+                Error = Error
+            };
+        }
+
+        /// <summary>
+        /// Convert MessageContract type
+        /// </summary>
+        /// <typeparam name="TContract"></typeparam>
+        /// <returns></returns>
+        public MessageContract<TContract> ToContract<TContract>(string customMessage)
+        {
+            if (Error != null)
+                Error.Message = customMessage;
+            return new MessageContract<TContract>()
+            {
+                IsSuccess = IsSuccess,
+                Error = Error
+            };
+        }
+
+        /// <summary>
+        /// Convert ListMessageContract type
+        /// </summary>
+        /// <typeparam name="TContract"></typeparam>
+        /// <returns></returns>
+        public ListMessageContract<TContract> ToListContract<TContract>(string customMessage)
+        {
+            if (Error != null)
+                Error.Message = customMessage;
+            return new ListMessageContract<TContract>()
+            {
+                IsSuccess = IsSuccess,
+                Error = Error
+            };
+        }
+
+        /// <summary>
         /// Get string result for debugger
         /// </summary>
         /// <returns></returns>
