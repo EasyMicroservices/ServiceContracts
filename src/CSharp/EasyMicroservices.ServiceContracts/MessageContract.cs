@@ -53,9 +53,9 @@ namespace EasyMicroservices.ServiceContracts
                     IsSuccess = false,
                     Error = new ErrorContract()
                     {
-                        FailedReasonType = FailedReasonType.NotFound,
+                        FailedReasonType = FailedReasonType.Empty,
                         StackTrace = Environment.StackTrace,
-                        Message = "یافت نشد."
+                        Message = "You sent null value to MessageContract result!"
                     }
                 };
             }
@@ -67,6 +67,17 @@ namespace EasyMicroservices.ServiceContracts
         }
 
         /// <summary>
+        /// Convert T to MessageContract<typeparamref name="T"/>
+        /// </summary>
+        /// <param name="values"></param>
+        public static implicit operator MessageContract<T>((T Contract, string EndUserMessage) values)
+        {
+            var result = (MessageContract<T>)values.Contract;
+            result.Success = values.EndUserMessage;
+            return result;
+        }
+
+        /// <summary>
         /// Convert MessageContract type
         /// </summary>
         /// <returns></returns>
@@ -75,7 +86,8 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract<T>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error,
+                Success = Success
             };
         }
 

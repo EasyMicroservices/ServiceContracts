@@ -42,9 +42,9 @@
         /// </summary>
         InternalError = 8,
         /// <summary>
-        /// Dupplicate request happen
+        /// Duplicate request happen
         /// </summary>
-        Dupplicate = 9,
+        Duplicate = 9,
         /// <summary>
         /// Data is empty or null
         /// </summary>

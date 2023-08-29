@@ -15,6 +15,10 @@ namespace EasyMicroservices.ServiceContracts
         /// When the service result has failed you will see the error here
         /// </summary>
         public ErrorContract Error { get; set; }
+        /// <summary>
+        /// When the service result has success you can use the success stuff here
+        /// </summary>
+        public SuccessContract Success { get; set; }
 
         /// <summary>
         /// Get result when you are in generic MessageContract
@@ -23,7 +27,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <exception cref="NotImplementedException"></exception>
         public virtual object GetResult()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("In the simple MesageContract there is no result to get! you must get result form MessageContract<T>!");
         }
 
         /// <summary>
