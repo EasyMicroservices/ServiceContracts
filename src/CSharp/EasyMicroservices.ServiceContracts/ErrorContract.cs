@@ -38,6 +38,10 @@ namespace EasyMicroservices.ServiceContracts
         /// </summary>
         public List<ErrorContract> Children { get; set; }
         /// <summary>
+        /// 
+        /// </summary>
+        public ServiceDetailsContract ServiceDetails { get; set; }
+        /// <summary>
         /// Get fast result for debugger
         /// </summary>
         /// <returns></returns>
@@ -68,6 +72,49 @@ namespace EasyMicroservices.ServiceContracts
                 StackTrace = Environment.StackTrace.ToListStackTrace()
             });
             return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="failedReasonType"></param>
+        public static implicit operator ErrorContract(FailedReasonType failedReasonType)
+        {
+            return new ErrorContract()
+            {
+                FailedReasonType = failedReasonType,
+                StackTrace = Environment.StackTrace.ToListStackTrace(),
+                Message = failedReasonType.ToString()
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exception"></param>
+        public static implicit operator ErrorContract(Exception exception)
+        {
+            return new ErrorContract()
+            {
+                FailedReasonType = FailedReasonType.InternalError,
+                StackTrace = Environment.StackTrace.ToListStackTrace(),
+                Message = exception.Message,
+                Details = exception.ToString()
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="details"></param>
+        public static implicit operator ErrorContract((FailedReasonType FailedReasonType, string Message) details)
+        {
+            return new ErrorContract()
+            {
+                FailedReasonType = details.FailedReasonType,
+                StackTrace = Environment.StackTrace.ToListStackTrace(),
+                Message = details.Message,
+            };
         }
     }
 }

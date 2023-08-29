@@ -32,12 +32,7 @@ namespace EasyMicroservices.ServiceContracts
                 return new ListMessageContract<T>()
                 {
                     IsSuccess = false,
-                    Error = new ErrorContract()
-                    {
-                        FailedReasonType = FailedReasonType.Empty,
-                        StackTrace = Environment.StackTrace.ToListStackTrace(),
-                        Message = "You sent null value to MessageContract result!"
-                    }
+                    Error = (FailedReasonType.Empty, "You sent null value to MessageContract result!")
                 };
             }
             return new ListMessageContract<T>()
@@ -99,12 +94,7 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<T>()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    FailedReasonType = details.FailedReasonType,
-                    StackTrace = Environment.StackTrace.ToListStackTrace(),
-                    Message = details.Message
-                }
+                Error = details
             };
         }
 
@@ -117,12 +107,7 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<T>()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    FailedReasonType = failedReasonType,
-                    StackTrace = Environment.StackTrace.ToListStackTrace(),
-                    Message = failedReasonType.ToString()
-                }
+                Error = failedReasonType
             };
         }
 
@@ -135,13 +120,7 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<T>()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    FailedReasonType = FailedReasonType.InternalError,
-                    StackTrace = Environment.StackTrace.ToListStackTrace(),
-                    Message = exception.Message,
-                    Details = exception.ToString()
-                }
+                Error = exception
             };
         }
 

@@ -36,13 +36,11 @@ namespace EasyMicroservices.ServiceContracts
         /// <param name="result"></param>
         public static implicit operator MessageContract(bool result)
         {
+            if (!result)
+                throw new Exception("Do not send false to MessageContract directly, please use FailedReasonType enum!");
             return new MessageContract()
             {
-                IsSuccess = result,
-                Error = result ? null : new ErrorContract()
-                {
-                    Message = "No details!"
-                }
+                IsSuccess = result
             };
         }
 
@@ -64,12 +62,7 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    Message = failedReasonType.ToString(),
-                    FailedReasonType = failedReasonType,
-                    StackTrace = Environment.StackTrace.ToListStackTrace()
-                }
+                Error = failedReasonType
             };
         }
 
@@ -82,12 +75,7 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    Message = result.Message,
-                    FailedReasonType = result.FailedReasonType,
-                    StackTrace = Environment.StackTrace.ToListStackTrace()
-                }
+                Error = result
             };
         }
 
@@ -152,6 +140,19 @@ namespace EasyMicroservices.ServiceContracts
                 IsSuccess = IsSuccess,
                 Error = Error.ToChildren(),
                 Success = Success,
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exception"></param>
+        public static implicit operator MessageContract(Exception exception)
+        {
+            return new MessageContract()
+            {
+                IsSuccess = false,
+                Error = exception
             };
         }
 
