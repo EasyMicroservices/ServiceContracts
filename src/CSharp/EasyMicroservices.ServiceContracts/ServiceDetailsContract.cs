@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Reflection;
 
 namespace EasyMicroservices.ServiceContracts
 {
@@ -9,6 +7,14 @@ namespace EasyMicroservices.ServiceContracts
     /// </summary>
     public class ServiceDetailsContract
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public ServiceDetailsContract()
+        {
+            PorjectName = Assembly.GetEntryAssembly()?.GetName()?.Name;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -21,5 +27,14 @@ namespace EasyMicroservices.ServiceContracts
         /// 
         /// </summary>
         public string PorjectName { get; set; }
+
+        /// <summary>
+        /// Get fast result for debugger
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"ServieRouteAddress: {ServieRouteAddress}\r\nMethodName: {MethodName}\r\n$Details: {PorjectName}\r\nPorjectName: {PorjectName}";
+        }
     }
 }

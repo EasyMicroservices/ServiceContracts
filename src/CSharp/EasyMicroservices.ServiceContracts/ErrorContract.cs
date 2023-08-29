@@ -40,14 +40,14 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// 
         /// </summary>
-        public ServiceDetailsContract ServiceDetails { get; set; }
+        public ServiceDetailsContract ServiceDetails { get; set; } = new ServiceDetailsContract();
         /// <summary>
         /// Get fast result for debugger
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return $"Type: {FailedReasonType}\r\nMeesage: {Message}\r\n$Details: {Details}$StackTrace:\r\n{string.Join(Environment.NewLine, StackTrace)}$\r\n{GetChildrenTrace()}";
+            return $"Type: {FailedReasonType}\r\nMeesage: {Message}\r\n$Details: {Details}\r\n$ServiceDetails: {ServiceDetails}\r\n$StackTrace:\r\n{string.Join(Environment.NewLine, StackTrace)}$\r\n{GetChildrenTrace()}";
         }
 
         string GetChildrenTrace()
