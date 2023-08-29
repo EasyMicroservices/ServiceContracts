@@ -54,7 +54,7 @@ namespace EasyMicroservices.ServiceContracts
                     Error = new ErrorContract()
                     {
                         FailedReasonType = FailedReasonType.Empty,
-                        StackTrace = Environment.StackTrace,
+                        StackTrace = Environment.StackTrace.ToListStackTrace(),
                         Message = "You sent null value to MessageContract result!"
                     }
                 };
@@ -86,7 +86,7 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract<T>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error,
+                Error = Error.ToChildren(),
                 Success = Success
             };
         }
@@ -103,7 +103,7 @@ namespace EasyMicroservices.ServiceContracts
                 Error = new ErrorContract()
                 {
                     FailedReasonType = details.FailedReasonType,
-                    StackTrace = Environment.StackTrace,
+                    StackTrace = Environment.StackTrace.ToListStackTrace(),
                     Message = details.Message
                 }
             };
@@ -121,7 +121,7 @@ namespace EasyMicroservices.ServiceContracts
                 Error = new ErrorContract()
                 {
                     FailedReasonType = failedReasonType,
-                    StackTrace = Environment.StackTrace,
+                    StackTrace = Environment.StackTrace.ToListStackTrace(),
                     Message = failedReasonType.ToString()
                 }
             };
@@ -139,7 +139,7 @@ namespace EasyMicroservices.ServiceContracts
                 Error = new ErrorContract()
                 {
                     FailedReasonType = FailedReasonType.InternalError,
-                    StackTrace = Environment.StackTrace,
+                    StackTrace = Environment.StackTrace.ToListStackTrace(),
                     Message = exception.Message,
                     Details = exception.ToString()
                 }

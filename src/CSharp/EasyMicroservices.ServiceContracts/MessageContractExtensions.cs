@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace EasyMicroservices.ServiceContracts
@@ -110,6 +114,97 @@ namespace EasyMicroservices.ServiceContracts
             newResult = messageContract.ToAnotherListContract<TContract>();
             result = default;
             return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static MessageContract<T> ToContract<T>(this object result)
+        {
+            return Normalize((MessageContract<T>)Map(typeof(MessageContract<T>), result));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static MessageContract ToContract(this object result)
+        {
+            return Normalize((MessageContract)Map(typeof(MessageContract), result));
+        }
+
+        static T Normalize<T>(T messageContract)
+            where T : MessageContract
+        {
+            if (!messageContract)
+                messageContract.Error = messageContract.Error.ToChildren();
+            return messageContract;
+        }
+
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static ListMessageContract<T> ToListContract<T>(this object result)
+        {
+            return Normalize((ListMessageContract<T>)Map(typeof(ListMessageContract<T>), result));
+        }
+
+        static object Map(Type type, object obj)
+        {
+            if (obj is null)
+                return null;
+            if (!obj.GetType().GetTypeInfo().IsClass || obj is string)
+            {
+                return obj;
+            }
+            var objectType = obj.GetType();
+            var instance = Activator.CreateInstance(type);
+            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                var objectProperty = objectType.GetProperty(property.Name, BindingFlags.Public | BindingFlags.Instance);
+                if (objectProperty != null && property.CanRead && property.CanWrite && objectProperty.CanRead && objectProperty.CanWrite)
+                {
+                    var value = objectProperty.GetValue(obj);
+                    if (value != null)
+                    {
+                        if (value.GetType().GetTypeInfo().IsClass && value is not string)
+                        {
+                            if (value is IEnumerable objects)
+                            {
+                                var itemsInstance = Activator.CreateInstance(value.GetType());
+                                foreach (var item in objects)
+                                {
+                                    if (itemsInstance is IList list)
+                                    {
+                                        list.Add(item == null ? null : Map(item.GetType(), item));
+                                    }
+                                }
+                                property.SetValue(instance, itemsInstance);
+                            }
+                            else
+                            {
+                                value = Map(property.PropertyType, value);
+                                if (value != null)
+                                    property.SetValue(instance, value);
+                            }
+                        }
+                        else if (property.PropertyType == objectProperty.PropertyType)
+                        {
+                            property.SetValue(instance, value);
+                        }
+                    }
+                }
+            }
+            return instance;
+        }
+
+        internal static List<string> ToListStackTrace(this string stackTrace)
+        {
+            return stackTrace == null ? null : stackTrace.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
         }
     }
 }

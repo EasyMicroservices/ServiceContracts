@@ -67,7 +67,8 @@ namespace EasyMicroservices.ServiceContracts
                 Error = new ErrorContract()
                 {
                     Message = failedReasonType.ToString(),
-                    FailedReasonType = failedReasonType
+                    FailedReasonType = failedReasonType,
+                    StackTrace = Environment.StackTrace.ToListStackTrace()
                 }
             };
         }
@@ -84,7 +85,8 @@ namespace EasyMicroservices.ServiceContracts
                 Error = new ErrorContract()
                 {
                     Message = result.Message,
-                    FailedReasonType = result.FailedReasonType
+                    FailedReasonType = result.FailedReasonType,
+                    StackTrace = Environment.StackTrace.ToListStackTrace()
                 }
             };
         }
@@ -99,7 +101,8 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success,
             };
         }
 
@@ -113,7 +116,8 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success,
             };
         }
 
@@ -129,7 +133,8 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success,
             };
         }
 
@@ -145,7 +150,8 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success,
             };
         }
 
