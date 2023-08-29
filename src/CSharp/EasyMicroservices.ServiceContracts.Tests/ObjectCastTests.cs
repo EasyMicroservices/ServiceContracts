@@ -1,6 +1,6 @@
 ﻿namespace EasyMicroservices.ServiceContracts.Tests
 {
-    public class ObjectCastTests: BaseTests
+    public class ObjectCastTests : BaseTests
     {
         [Fact]
         public void MessageContractBaseToMessageContract()
