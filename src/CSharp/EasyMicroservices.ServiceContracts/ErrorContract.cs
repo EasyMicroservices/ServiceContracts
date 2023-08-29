@@ -97,7 +97,7 @@ namespace EasyMicroservices.ServiceContracts
             return new ErrorContract()
             {
                 FailedReasonType = FailedReasonType.InternalError,
-                StackTrace = Environment.StackTrace.ToListStackTrace(),
+                StackTrace = exception.StackTrace.ToListStackTrace(),
                 Message = exception.Message,
                 Details = exception.ToString()
             };
