@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EasyMicroservices.ServiceContracts.Tests
 {
-    public class CastTests: BaseTests
+    public class CastTests : BaseTests
     {
         [Fact]
         public void MessageContractBaseToMessageContract()
