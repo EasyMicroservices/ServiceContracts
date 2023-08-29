@@ -4,15 +4,14 @@ using System.Text;
 
 namespace EasyMicroservices.ServiceContracts.Tests
 {
-    public class CastTests
+    public class CastTests : BaseTests
     {
         [Fact]
         public void MessageContractBaseToMessageContract()
         {
             MessageContract contract = FailedReasonType.InternalError;
             MessageContract<string> converted = contract.ToContract<string>();
-            Assert.Equal(contract.Error, converted.Error);
-            Assert.Equal(contract.IsSuccess, converted.IsSuccess);
+            AssertMessageContract(contract, converted);
         }
 
         [Fact]
@@ -20,8 +19,7 @@ namespace EasyMicroservices.ServiceContracts.Tests
         {
             MessageContract contract = FailedReasonType.InternalError;
             ListMessageContract<string> converted = contract.ToListContract<string>();
-            Assert.Equal(contract.Error, converted.Error);
-            Assert.Equal(contract.IsSuccess, converted.IsSuccess);
+            AssertMessageContract(contract, converted);
         }
 
         [Fact]
@@ -29,8 +27,7 @@ namespace EasyMicroservices.ServiceContracts.Tests
         {
             MessageContract<string> contract = FailedReasonType.InternalError;
             MessageContract converted = contract.ToContract();
-            Assert.Equal(contract.Error, converted.Error);
-            Assert.Equal(contract.IsSuccess, converted.IsSuccess);
+            AssertMessageContract(contract, converted);
         }
 
         [Fact]
@@ -38,18 +35,15 @@ namespace EasyMicroservices.ServiceContracts.Tests
         {
             MessageContract<int> contract = FailedReasonType.InternalError;
             ListMessageContract<string> converted = contract.ToListContract<string>();
-            Assert.Equal(contract.Error, converted.Error);
-            Assert.Equal(contract.IsSuccess, converted.IsSuccess);
+            AssertMessageContract(contract, converted);
         }
-
 
         [Fact]
         public void ListMessageContractToMessageContract()
         {
             ListMessageContract<string> contract = FailedReasonType.InternalError;
             MessageContract converted = contract.ToContract();
-            Assert.Equal(contract.Error, converted.Error);
-            Assert.Equal(contract.IsSuccess, converted.IsSuccess);
+            AssertMessageContract(contract, converted);
         }
 
         [Fact]
@@ -57,8 +51,7 @@ namespace EasyMicroservices.ServiceContracts.Tests
         {
             ListMessageContract<int> contract = FailedReasonType.InternalError;
             MessageContract converted = contract.ToContract();
-            Assert.Equal(contract.Error, converted.Error);
-            Assert.Equal(contract.IsSuccess, converted.IsSuccess);
+            AssertMessageContract(contract, converted);
         }
     }
 }

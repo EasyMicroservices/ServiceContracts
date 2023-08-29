@@ -32,12 +32,7 @@ namespace EasyMicroservices.ServiceContracts
                 return new ListMessageContract<T>()
                 {
                     IsSuccess = false,
-                    Error = new ErrorContract()
-                    {
-                        FailedReasonType = FailedReasonType.NotFound,
-                        StackTrace = Environment.StackTrace,
-                        Message = "یافت نشد."
-                    }
+                    Error = (FailedReasonType.Empty, "You sent null value to MessageContract result!")
                 };
             }
             return new ListMessageContract<T>()
@@ -45,6 +40,17 @@ namespace EasyMicroservices.ServiceContracts
                 IsSuccess = true,
                 Result = result
             };
+        }
+
+        /// <summary>
+        /// Convert T to MessageContract<typeparamref name="T"/>
+        /// </summary>
+        /// <param name="values"></param>
+        public static implicit operator ListMessageContract<T>((List<T> Result, string EndUserMessage) values)
+        {
+            var result = (ListMessageContract<T>)values.Result;
+            result.Success = values.EndUserMessage;
+            return result;
         }
 
         /// <summary>
@@ -57,7 +63,8 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success
             };
         }
 
@@ -73,7 +80,8 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success
             };
         }
 
@@ -86,12 +94,7 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<T>()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    FailedReasonType = details.FailedReasonType,
-                    StackTrace = Environment.StackTrace,
-                    Message = details.Message
-                }
+                Error = details
             };
         }
 
@@ -104,12 +107,7 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<T>()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    FailedReasonType = failedReasonType,
-                    StackTrace = Environment.StackTrace,
-                    Message = failedReasonType.ToString()
-                }
+                Error = failedReasonType
             };
         }
 
@@ -122,13 +120,7 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<T>()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    FailedReasonType = FailedReasonType.InternalError,
-                    StackTrace = Environment.StackTrace,
-                    Message = exception.Message,
-                    Details = exception.ToString()
-                }
+                Error = exception
             };
         }
 

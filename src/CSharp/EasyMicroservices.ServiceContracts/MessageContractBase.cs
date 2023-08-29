@@ -15,6 +15,10 @@ namespace EasyMicroservices.ServiceContracts
         /// When the service result has failed you will see the error here
         /// </summary>
         public ErrorContract Error { get; set; }
+        /// <summary>
+        /// When the service result has success you can use the success stuff here
+        /// </summary>
+        public SuccessContract Success { get; set; }
 
         /// <summary>
         /// Get result when you are in generic MessageContract
@@ -23,7 +27,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <exception cref="NotImplementedException"></exception>
         public virtual object GetResult()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("In the simple MesageContract there is no result to get! you must get result form MessageContract<T>!");
         }
 
         /// <summary>
@@ -32,13 +36,11 @@ namespace EasyMicroservices.ServiceContracts
         /// <param name="result"></param>
         public static implicit operator MessageContract(bool result)
         {
+            if (!result)
+                throw new Exception("Do not send false to MessageContract directly, please use FailedReasonType enum!");
             return new MessageContract()
             {
-                IsSuccess = result,
-                Error = result ? null : new ErrorContract()
-                {
-                    Message = "No details!"
-                }
+                IsSuccess = result
             };
         }
 
@@ -60,11 +62,7 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    Message = failedReasonType.ToString(),
-                    FailedReasonType = failedReasonType
-                }
+                Error = failedReasonType
             };
         }
 
@@ -77,11 +75,7 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract()
             {
                 IsSuccess = false,
-                Error = new ErrorContract()
-                {
-                    Message = result.Message,
-                    FailedReasonType = result.FailedReasonType
-                }
+                Error = result
             };
         }
 
@@ -95,7 +89,8 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success,
             };
         }
 
@@ -109,7 +104,8 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success,
             };
         }
 
@@ -125,7 +121,8 @@ namespace EasyMicroservices.ServiceContracts
             return new MessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success,
             };
         }
 
@@ -141,7 +138,21 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<TContract>()
             {
                 IsSuccess = IsSuccess,
-                Error = Error
+                Error = Error.ToChildren(),
+                Success = Success,
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exception"></param>
+        public static implicit operator MessageContract(Exception exception)
+        {
+            return new MessageContract()
+            {
+                IsSuccess = false,
+                Error = exception
             };
         }
 
