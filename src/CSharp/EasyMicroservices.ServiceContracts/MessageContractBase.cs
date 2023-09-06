@@ -11,11 +11,11 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// The result of service is success or failed
         /// </summary>
-        public bool IsSuccess { get; internal set; }
+        public bool IsSuccess { get; set; }
         /// <summary>
         /// When the service result has failed you will see the error here
         /// </summary>
-        public ErrorContract Error { get; internal set; }
+        public ErrorContract Error { get; set; }
         /// <summary>
         /// When the service result has success you can use the success stuff here
         /// </summary>
