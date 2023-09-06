@@ -31,10 +31,10 @@ namespace EasyMicroservices.ServiceContracts
         /// <typeparam name="T"></typeparam>
         /// <param name="task"></param>
         /// <returns></returns>
-        public static async Task<T> AsResultThrowsIfFailed<T>(this Task<MessageContract<T>> task)
+        public static async Task<T> AsCheckedResult<T>(this Task<MessageContract<T>> task)
         {
             var result = await task;
-            return result.ThorwsIfFailed();
+            return result.GetCheckedResult();
         }
 
         /// <summary>
