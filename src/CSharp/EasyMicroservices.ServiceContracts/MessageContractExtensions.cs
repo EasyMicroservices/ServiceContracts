@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyMicroservices.ServiceContracts.Exceptions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -205,6 +206,29 @@ namespace EasyMicroservices.ServiceContracts
         internal static List<string> ToListStackTrace(this string stackTrace)
         {
             return stackTrace == null ? null : stackTrace.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
+        }
+
+        /// <summary>
+        /// Get a checked and valid result of messagecontract
+        /// if IsSuccess is false, it will throw an exception
+        /// </summary>
+        /// <exception cref="InvalidResultOfMessageContractException"></exception>
+        /// <returns></returns>
+        public static T GetCheckedResult<T>(this object result)
+        {
+            var contrract = ToContract<T>(result);
+            return contrract.GetCheckedResult();
+        }
+
+        /// <summary>
+        /// throw an exception when message contract is not successed
+        /// </summary>
+        /// <exception cref="InvalidResultOfMessageContractException"></exception>
+        /// <returns></returns>
+        public static void ThrowsIfFails(this object result)
+        {
+            var contrract = ToContract(result);
+            contrract.ThrowsIfFails();
         }
     }
 }

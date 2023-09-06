@@ -73,6 +73,10 @@
         /// <summary>
         /// operation failed successfully :)
         /// </summary>
-        OperationFailed = 16
+        OperationFailed = 16,
+        /// <summary>
+        /// Data is not valid
+        /// </summary>
+        Invalid = 15,
     }
 }
