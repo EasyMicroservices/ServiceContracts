@@ -13,7 +13,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// Result of service when it's successfuly
         /// </summary>
-        public T Result { get; internal set; }
+        public T Result { get; set; }
 
         /// <summary>
         /// Get result of messagecontract from none generic MessageContract
