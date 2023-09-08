@@ -149,14 +149,12 @@ namespace EasyMicroservices.ServiceContracts
         }
 
         /// <summary>
-        /// Thorw an excpetion if the result is not success
+        /// 
         /// </summary>
-        /// <exception cref="Exception"></exception>
-        public virtual T ThorwsIfFailed()
+        /// <param name="messageContract"></param>
+        public static implicit operator T(MessageContract<T> messageContract)
         {
-            if (!IsSuccess)
-                throw new Exception(ToString());
-            return Result;
+            return messageContract.GetCheckedResult();
         }
     }
 }
