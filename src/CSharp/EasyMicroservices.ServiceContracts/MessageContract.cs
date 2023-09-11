@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyMicroservices.ServiceContracts.Exceptions;
+using System;
 using System.Collections.Generic;
 
 namespace EasyMicroservices.ServiceContracts
@@ -20,6 +21,19 @@ namespace EasyMicroservices.ServiceContracts
         /// <returns></returns>
         public override object GetResult()
         {
+            return Result;
+        }
+
+        /// <summary>
+        /// Get a checked and valid result of messagecontract
+        /// if IsSuccess is false, it will throw an exception
+        /// </summary>
+        /// <exception cref="InvalidResultOfMessageContractException"></exception>
+        /// <returns></returns>
+        public T GetCheckedResult()
+        {
+            if (!IsSuccess)
+                throw new InvalidResultOfMessageContractException(this);
             return Result;
         }
 
@@ -169,14 +183,12 @@ namespace EasyMicroservices.ServiceContracts
         }
 
         /// <summary>
-        /// Thorw an excpetion if the result is not success
+        /// 
         /// </summary>
-        /// <exception cref="Exception"></exception>
-        public virtual T ThorwsIfFailed()
+        /// <param name="messageContract"></param>
+        public static implicit operator T(MessageContract<T> messageContract)
         {
-            if (!IsSuccess)
-                throw new Exception(ToString());
-            return Result;
+            return messageContract.GetCheckedResult();
         }
     }
 }

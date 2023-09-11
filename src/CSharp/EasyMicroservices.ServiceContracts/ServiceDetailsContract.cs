@@ -26,6 +26,10 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// 
         /// </summary>
+        public string Path { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string PorjectName { get; set; }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyMicroservices.ServiceContracts.Exceptions;
+using System;
 
 namespace EasyMicroservices.ServiceContracts
 {
@@ -28,6 +29,17 @@ namespace EasyMicroservices.ServiceContracts
         public virtual object GetResult()
         {
             throw new NotImplementedException("In the simple MesageContract there is no result to get! you must get result form MessageContract<T>!");
+        }
+
+        /// <summary>
+        /// throw an exception when message contract is not successed
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidResultOfMessageContractException"></exception>
+        public void ThrowsIfFails()
+        {
+            if (!IsSuccess)
+                throw new InvalidResultOfMessageContractException(this);
         }
 
         /// <summary>

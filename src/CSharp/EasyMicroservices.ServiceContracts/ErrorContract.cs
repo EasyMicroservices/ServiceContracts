@@ -12,7 +12,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// Validation errors result
         /// </summary>
-        public List<ValidationContract> Validations { get; set; } = new List<ValidationContract>();
+        public List<ValidationContract> Validations { get; set; }
         /// <summary>
         /// Type of error
         /// </summary>
@@ -114,6 +114,21 @@ namespace EasyMicroservices.ServiceContracts
                 FailedReasonType = details.FailedReasonType,
                 StackTrace = Environment.StackTrace.ToListStackTrace(),
                 Message = details.Message,
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validations"></param>
+        public static implicit operator ErrorContract(List<ValidationContract> validations)
+        {
+            return new ErrorContract()
+            {
+                FailedReasonType = FailedReasonType.ValidationsError,
+                StackTrace = Environment.StackTrace.ToListStackTrace(),
+                Message = "You have validation error!",
+                Validations = validations
             };
         }
     }
