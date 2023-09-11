@@ -69,6 +69,23 @@ namespace EasyMicroservices.ServiceContracts
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TContract"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public ListMessageContract<TContract> ToAnotherListContract<TContract>(Func<List<T>, List<TContract>> func)
+        {
+            return new ListMessageContract<TContract>()
+            {
+                IsSuccess = IsSuccess,
+                Error = Error?.ToChildren(),
+                Success = Success,
+                Result = IsSuccess ? func(Result) : default
+            };
+        }
+
+        /// <summary>
         /// Convert MessageContract type
         /// </summary>
         /// <typeparam name="TContract"></typeparam>

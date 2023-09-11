@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EasyMicroservices.ServiceContracts.Tests
 {
@@ -52,6 +52,36 @@ namespace EasyMicroservices.ServiceContracts.Tests
             ListMessageContract<int> contract = FailedReasonType.InternalError;
             MessageContract converted = contract.ToContract();
             AssertMessageContract(contract, converted);
+        }
+
+        [Fact]
+        public async Task AsyncToContract()
+        {
+            Task<MessageContract<string>> taskTest = Task.FromResult((MessageContract<string>)"14");
+
+            MessageContract<long> contract = await taskTest.ToContract<string, long>(x => int.Parse(x));
+            AssertMessageContract(contract);
+            Assert.Equal(contract.Result, 14);
+        }
+
+        [Fact]
+        public async Task AsyncToListContract()
+        {
+            Task<MessageContract<string>> taskTest = Task.FromResult((MessageContract<string>)"14");
+
+            ListMessageContract<long> contract = await taskTest.ToListContract(x => new List<long>() { int.Parse(x) });
+            AssertMessageContract(contract);
+            Assert.Equal(contract.Result[0], 14);
+        }
+
+        [Fact]
+        public async Task AsyncListToListContract()
+        {
+            Task<ListMessageContract<string>> taskTest = Task.FromResult((ListMessageContract<string>)new List<string>() { "14" });
+
+            ListMessageContract<int> contract = await taskTest.ToListContract(x => x.Select(i => int.Parse(i)).ToList());
+            AssertMessageContract(contract);
+            Assert.Equal(contract.Result[0], 14);
         }
     }
 }
