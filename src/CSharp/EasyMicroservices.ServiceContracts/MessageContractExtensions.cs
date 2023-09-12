@@ -40,6 +40,48 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// 
         /// </summary>
+        /// <typeparam name="TFrom"></typeparam>
+        /// <typeparam name="TTo"></typeparam>
+        /// <param name="contract"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static async Task<MessageContract<TTo>> ToContract<TFrom, TTo>(this Task<MessageContract<TFrom>> contract, Func<TFrom, TTo> func)
+        {
+            var result = await contract;
+            return result.ToContract(func);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TFrom"></typeparam>
+        /// <typeparam name="TTo"></typeparam>
+        /// <param name="contract"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static async Task<ListMessageContract<TTo>> ToListContract<TFrom, TTo>(this Task<MessageContract<TFrom>> contract, Func<TFrom, List<TTo>> func)
+        {
+            var result = await contract;
+            return result.ToListContract(func);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TFrom"></typeparam>
+        /// <typeparam name="TTo"></typeparam>
+        /// <param name="contract"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static async Task<ListMessageContract<TTo>> ToListContract<TFrom, TTo>(this Task<ListMessageContract<TFrom>> contract, Func<List<TFrom>, List<TTo>> func)
+        {
+            var result = await contract;
+            return result.ToAnotherListContract(func);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="messageContract"></param>
         /// <param name="result"></param>

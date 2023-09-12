@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net6.0;net5.0;net48;net452;net7.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net6.0;net48;net452;net7.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -14,18 +14,23 @@
   </ItemGroup>
   
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'net452'">
-      <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <When Condition="'$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'netcoreapp3.1'">
+      <ItemGroup>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
       </ItemGroup>
     </When>
     <Otherwise>
-      <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0" />
+      <ItemGroup>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
       </ItemGroup>
     </Otherwise>
   </Choose>
-  
   
   <ItemGroup>
     <ProjectReference Include="..\EasyMicroservices.ServiceContracts\EasyMicroservices.ServiceContracts.csproj" />
