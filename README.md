@@ -59,3 +59,18 @@ public class MyController : ControllerBase
         }
 }
 ```
+
+Easy error:
+
+```csharp
+public class MyController : ControllerBase
+{
+    //...
+    
+        [HttpPost]
+        public async Task<MessageContract<long>> Add(CreateFaqRequestContract request)
+        {
+            return (FailedReasonType.NotFound, "Service result not found!");
+        }
+}
+```
