@@ -66,6 +66,15 @@ namespace EasyMicroservices.ServiceContracts.Tests
             AssertErrorContract(messageContract1.Error, messageContract2.Error);
         }
 
+        public void AssertMessageContract<T, T2>(ListMessageContract<T> messageContract1, ListMessageContract<T2> messageContract2)
+        {
+            AssertMessageContract(messageContract1);
+            AssertMessageContract(messageContract2);
+            Assert.Equal(messageContract1.IsSuccess, messageContract2.IsSuccess);
+            AssertSuccessContract(messageContract1.Success, messageContract2.Success);
+            AssertErrorContract(messageContract1.Error, messageContract2.Error);
+        }
+
         void AssertSuccessContract(SuccessContract contract1, SuccessContract contract2)
         {
             if (contract1 == null || contract2 == null)

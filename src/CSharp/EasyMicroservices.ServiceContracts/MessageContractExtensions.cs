@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -178,6 +179,42 @@ namespace EasyMicroservices.ServiceContracts
             return Normalize((MessageContract)Map(typeof(MessageContract), result));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static async Task<MessageContract<T>> ToContract<T>(this Task contract)
+        {
+            await contract;
+            return GetTaskResult(contract).ToContract<T>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static async Task<ListMessageContract<T>> ToListContract<T>(this Task contract)
+        {
+            await contract;
+            return GetTaskResult(contract).ToListContract<T>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TFrom"></typeparam>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static async Task<MessageContract> ToContract<TFrom>(this Task<TFrom> contract)
+        {
+            var result = await contract;
+            return result.ToContract();
+        }
+
         static T Normalize<T>(T messageContract)
             where T : MessageContract
         {
@@ -214,30 +251,33 @@ namespace EasyMicroservices.ServiceContracts
                     var value = objectProperty.GetValue(obj);
                     if (value != null)
                     {
-                        if (value.GetType().GetTypeInfo().IsClass && value is not string)
+                        if (property.PropertyType == objectProperty.PropertyType)
                         {
-                            if (value is IEnumerable objects)
+                            if (value.GetType().GetTypeInfo().IsClass && value is not string)
                             {
-                                var itemsInstance = Activator.CreateInstance(value.GetType());
-                                foreach (var item in objects)
+                                if (value is IEnumerable objects)
                                 {
-                                    if (itemsInstance is IList list)
+                                    var itemsInstance = Activator.CreateInstance(value.GetType());
+                                    foreach (var item in objects)
                                     {
-                                        list.Add(item == null ? null : Map(item.GetType(), item));
+                                        if (itemsInstance is IList list)
+                                        {
+                                            list.Add(item == null ? null : Map(item.GetType(), item));
+                                        }
                                     }
+                                    property.SetValue(instance, itemsInstance);
                                 }
-                                property.SetValue(instance, itemsInstance);
+                                else
+                                {
+                                    value = Map(property.PropertyType, value);
+                                    if (value != null)
+                                        property.SetValue(instance, value);
+                                }
                             }
                             else
                             {
-                                value = Map(property.PropertyType, value);
-                                if (value != null)
-                                    property.SetValue(instance, value);
+                                property.SetValue(instance, value);
                             }
-                        }
-                        else if (property.PropertyType == objectProperty.PropertyType)
-                        {
-                            property.SetValue(instance, value);
                         }
                     }
                 }
@@ -271,6 +311,14 @@ namespace EasyMicroservices.ServiceContracts
         {
             var contrract = ToContract(result);
             contrract.ThrowsIfFails();
+        }
+
+        static object GetTaskResult(Task task)
+        {
+            var property = task.GetType().GetProperty(nameof(Task<string>.Result), BindingFlags.Public | BindingFlags.Instance);
+            if (property == null)
+                throw new Exception("You cannot Get result of empty task, please send Task<MessageContract<T>>");
+            return property.GetValue(task);
         }
     }
 }

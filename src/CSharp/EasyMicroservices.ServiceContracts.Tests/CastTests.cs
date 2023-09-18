@@ -62,6 +62,14 @@ namespace EasyMicroservices.ServiceContracts.Tests
             MessageContract<long> contract = await taskTest.ToContract<string, long>(x => int.Parse(x));
             AssertMessageContract(contract);
             Assert.Equal(contract.Result, 14);
+
+            var toContractResult = await taskTest.ToContract<int>();
+            Assert.True(toContractResult.IsSuccess);
+            Assert.Equal(toContractResult.Result, 0);
+
+            var result = await taskTest;
+            var toContractResult2 = await taskTest.ToContract<string>();
+            AssertMessageContract<string>(result, toContractResult2);
         }
 
         [Fact]
@@ -72,16 +80,31 @@ namespace EasyMicroservices.ServiceContracts.Tests
             ListMessageContract<long> contract = await taskTest.ToListContract(x => new List<long>() { int.Parse(x) });
             AssertMessageContract(contract);
             Assert.Equal(contract.Result[0], 14);
+
+            var toContractResult = await taskTest.ToListContract<int>();
+            Assert.True(toContractResult.IsSuccess);
+            Assert.Equal(toContractResult.Result, null);
+
+            var result = await taskTest;
+            var toContractResult2 = await taskTest.ToContract<string>();
+            AssertMessageContract<string>(result, toContractResult2);
         }
 
         [Fact]
         public async Task AsyncListToListContract()
         {
             Task<ListMessageContract<string>> taskTest = Task.FromResult((ListMessageContract<string>)new List<string>() { "14" });
-
             ListMessageContract<int> contract = await taskTest.ToListContract(x => x.Select(i => int.Parse(i)).ToList());
             AssertMessageContract(contract);
             Assert.Equal(contract.Result[0], 14);
+
+            var toContractResult = await taskTest.ToListContract<int>();
+            Assert.True(toContractResult.IsSuccess);
+            Assert.Equal(toContractResult.Result, null);
+
+            var result = await taskTest;
+            var toContractResult2 = await taskTest.ToListContract<string>();
+            AssertMessageContract(result, toContractResult2);
         }
     }
 }
