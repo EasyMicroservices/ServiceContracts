@@ -279,6 +279,37 @@ namespace EasyMicroservices.ServiceContracts
                                 property.SetValue(instance, value);
                             }
                         }
+                        else if (property.PropertyType.IsClass && property.PropertyType != typeof(string) && property.PropertyType.Name == objectProperty.PropertyType.Name)
+                        {
+                            var newResult = Map(property.PropertyType, value);
+                            property.SetValue(instance, newResult);
+                        }
+                        else if (property.PropertyType.IsEnum && property.PropertyType.Name == objectProperty.PropertyType.Name)
+                        {
+                            property.SetValue(instance, value);
+                        }
+                        else if (value is IEnumerable items)
+                        {
+                            try
+                            {
+                                var itemsInstance = Activator.CreateInstance(property.PropertyType);
+                                if (itemsInstance is IList ilist)
+                                {
+                                    foreach (var item in items)
+                                    {
+                                        if (item.GetType().IsClass)
+                                            ilist.Add(Map(item.GetType(), item));
+                                        else
+                                            ilist.Add(item);
+                                    }
+                                }
+                                property.SetValue(instance, itemsInstance);
+                            }
+                            catch
+                            {
+
+                            }
+                        }
                     }
                 }
             }
