@@ -248,6 +248,15 @@ namespace EasyMicroservices.ServiceContracts
                 var objectProperty = objectType.GetProperty(property.Name, BindingFlags.Public | BindingFlags.Instance);
                 if (objectProperty != null && property.CanRead && property.CanWrite && objectProperty.CanRead && objectProperty.CanWrite)
                 {
+                    try
+                    {
+                        var value111 = objectProperty.GetValue(obj);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        var aa = ex;
+                    }
                     var value = objectProperty.GetValue(obj);
                     if (value != null)
                     {
@@ -279,7 +288,7 @@ namespace EasyMicroservices.ServiceContracts
                                 property.SetValue(instance, value);
                             }
                         }
-                        else if (property.PropertyType.IsClass && property.PropertyType != typeof(string) && property.PropertyType.Name == objectProperty.PropertyType.Name)
+                        else if (value is not IEnumerable && property.PropertyType.IsClass && property.PropertyType != typeof(string) && property.PropertyType.Name == objectProperty.PropertyType.Name)
                         {
                             var newResult = Map(property.PropertyType, value);
                             property.SetValue(instance, newResult);
