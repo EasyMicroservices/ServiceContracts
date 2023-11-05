@@ -18,7 +18,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// 
         /// </summary>
-        public string ServieRouteAddress { get; set; }
+        public string ServiceRouteAddress { get; set; }
         /// <summary>
         /// 
         /// </summary>
