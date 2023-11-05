@@ -30,7 +30,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// 
         /// </summary>
-        public string PorjectName { get; set; }
+        public string ProjectName { get; set; }
 
         /// <summary>
         /// Get fast result for debugger
