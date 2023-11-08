@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EasyMicroservices.ServiceContracts
 {
@@ -10,6 +9,10 @@ namespace EasyMicroservices.ServiceContracts
     /// <typeparam name="T"></typeparam>
     public class ListMessageContract<T> : MessageContract<List<T>>
     {
+        /// <summary>
+        /// Total records count found in service
+        /// </summary>
+        public long TotalCount { get; set; }
         /// <summary>
         /// when IsSuccess = true and Result has any items
         /// </summary>
@@ -38,7 +41,8 @@ namespace EasyMicroservices.ServiceContracts
             return new ListMessageContract<T>()
             {
                 IsSuccess = true,
-                Result = result
+                Result = result,
+                TotalCount = result.Count
             };
         }
 
@@ -64,7 +68,8 @@ namespace EasyMicroservices.ServiceContracts
             {
                 IsSuccess = IsSuccess,
                 Error = Error.ToChildren(),
-                Success = Success
+                Success = Success,
+                TotalCount = TotalCount,
             };
         }
 
@@ -81,7 +86,8 @@ namespace EasyMicroservices.ServiceContracts
                 IsSuccess = IsSuccess,
                 Error = Error?.ToChildren(),
                 Success = Success,
-                Result = IsSuccess ? func(Result) : default
+                Result = IsSuccess ? func(Result) : default,
+                TotalCount = TotalCount
             };
         }
 
@@ -98,7 +104,8 @@ namespace EasyMicroservices.ServiceContracts
             {
                 IsSuccess = IsSuccess,
                 Error = Error.ToChildren(),
-                Success = Success
+                Success = Success,
+                TotalCount = TotalCount,
             };
         }
 

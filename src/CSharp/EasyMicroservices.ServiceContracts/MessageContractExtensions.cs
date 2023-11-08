@@ -32,7 +32,31 @@ namespace EasyMicroservices.ServiceContracts
         /// <typeparam name="T"></typeparam>
         /// <param name="task"></param>
         /// <returns></returns>
+        public static async Task<List<T>> AsResult<T>(this Task<ListMessageContract<T>> task)
+        {
+            var result = await task;
+            return result.Result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="task"></param>
+        /// <returns></returns>
         public static async Task<T> AsCheckedResult<T>(this Task<MessageContract<T>> task)
+        {
+            var result = await task;
+            return result.GetCheckedResult();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static async Task<List<T>> AsCheckedResult<T>(this Task<ListMessageContract<T>> task)
         {
             var result = await task;
             return result.GetCheckedResult();
