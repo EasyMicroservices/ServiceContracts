@@ -12,13 +12,13 @@ namespace EasyMicroservices.ServiceContracts
         /// </summary>
         public ServiceDetailsContract()
         {
-            PorjectName = Assembly.GetEntryAssembly()?.GetName()?.Name;
+            ProjectName = Assembly.GetEntryAssembly()?.GetName()?.Name;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public string ServieRouteAddress { get; set; }
+        public string ServiceRouteAddress { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -30,7 +30,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <summary>
         /// 
         /// </summary>
-        public string PorjectName { get; set; }
+        public string ProjectName { get; set; }
 
         /// <summary>
         /// Get fast result for debugger
@@ -38,7 +38,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <returns></returns>
         public override string ToString()
         {
-            return $"ServieRouteAddress: {ServieRouteAddress}\r\nMethodName: {MethodName}\r\n$Details: {PorjectName}\r\nPorjectName: {PorjectName}";
+            return $"ServiceRouteAddress: {ServiceRouteAddress}\r\nMethodName: {MethodName}\r\n$Details: {ProjectName}\r\nProjectName: {ProjectName}";
         }
     }
 }

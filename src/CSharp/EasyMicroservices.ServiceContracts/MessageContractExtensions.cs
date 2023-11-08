@@ -248,6 +248,15 @@ namespace EasyMicroservices.ServiceContracts
                 var objectProperty = objectType.GetProperty(property.Name, BindingFlags.Public | BindingFlags.Instance);
                 if (objectProperty != null && property.CanRead && property.CanWrite && objectProperty.CanRead && objectProperty.CanWrite)
                 {
+                    try
+                    {
+                        var value111 = objectProperty.GetValue(obj);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        var aa = ex;
+                    }
                     var value = objectProperty.GetValue(obj);
                     if (value != null)
                     {
@@ -277,6 +286,37 @@ namespace EasyMicroservices.ServiceContracts
                             else
                             {
                                 property.SetValue(instance, value);
+                            }
+                        }
+                        else if (value is not IEnumerable && property.PropertyType.IsClass && property.PropertyType != typeof(string) && property.PropertyType.Name == objectProperty.PropertyType.Name)
+                        {
+                            var newResult = Map(property.PropertyType, value);
+                            property.SetValue(instance, newResult);
+                        }
+                        else if (property.PropertyType.IsEnum && property.PropertyType.Name == objectProperty.PropertyType.Name)
+                        {
+                            property.SetValue(instance, value);
+                        }
+                        else if (value is IEnumerable items)
+                        {
+                            try
+                            {
+                                var itemsInstance = Activator.CreateInstance(property.PropertyType);
+                                if (itemsInstance is IList ilist)
+                                {
+                                    foreach (var item in items)
+                                    {
+                                        if (item.GetType().IsClass)
+                                            ilist.Add(Map(item.GetType(), item));
+                                        else
+                                            ilist.Add(item);
+                                    }
+                                }
+                                property.SetValue(instance, itemsInstance);
+                            }
+                            catch
+                            {
+
                             }
                         }
                     }
