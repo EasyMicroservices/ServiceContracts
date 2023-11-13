@@ -32,8 +32,7 @@ namespace EasyMicroservices.ServiceContracts
         /// <returns></returns>
         public T GetCheckedResult()
         {
-            if (!IsSuccess)
-                throw new InvalidResultOfMessageContractException(this);
+            ThrowsIfFails();
             return Result;
         }
 
