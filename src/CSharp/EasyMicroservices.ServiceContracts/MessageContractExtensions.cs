@@ -385,6 +385,21 @@ namespace EasyMicroservices.ServiceContracts
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static async Task AsCheckedResult<T>(this Task<T> task)
+        {
+            var result = await task;
+            if (result is MessageContract contract)
+                contract.ThrowsIfFails();
+            else
+                ThrowsIfFails(result);
+        }
+
+        /// <summary>
         /// throw an exception when message contract is not successed
         /// </summary>
         /// <exception cref="InvalidResultOfMessageContractException"></exception>
