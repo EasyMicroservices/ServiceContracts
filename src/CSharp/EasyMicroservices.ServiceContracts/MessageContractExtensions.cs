@@ -272,15 +272,6 @@ namespace EasyMicroservices.ServiceContracts
                 var objectProperty = objectType.GetProperty(property.Name, BindingFlags.Public | BindingFlags.Instance);
                 if (objectProperty != null && property.CanRead && property.CanWrite && objectProperty.CanRead && objectProperty.CanWrite)
                 {
-                    try
-                    {
-                        var value111 = objectProperty.GetValue(obj);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        var aa = ex;
-                    }
                     var value = objectProperty.GetValue(obj);
                     if (value != null)
                     {
@@ -328,10 +319,11 @@ namespace EasyMicroservices.ServiceContracts
                                 var itemsInstance = Activator.CreateInstance(property.PropertyType);
                                 if (itemsInstance is IList ilist)
                                 {
+                                    var genericType = property.PropertyType.GenericTypeArguments[0];
                                     foreach (var item in items)
                                     {
                                         if (item.GetType().IsClass)
-                                            ilist.Add(Map(item.GetType(), item));
+                                            ilist.Add(Map(genericType, item));
                                         else
                                             ilist.Add(item);
                                     }
