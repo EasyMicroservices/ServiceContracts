@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="EasyMicroservices.Laboratory" Version="0.0.0.15" />
     <PackageReference Include="EasyMicroservices.Tests" Version="0.0.0.9" />
+    <PackageReference Include="EasyMicroservices.WhiteLabelsMicroservice.Clients" Version="0.0.0.11" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
   </ItemGroup>
   

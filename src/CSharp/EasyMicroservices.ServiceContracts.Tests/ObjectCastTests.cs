@@ -1,4 +1,7 @@
-﻿namespace EasyMicroservices.ServiceContracts.Tests
+﻿using System.Collections.Generic;
+using WhiteLables.GeneratedServices;
+
+namespace EasyMicroservices.ServiceContracts.Tests
 {
     public class ObjectCastTests : BaseTests
     {
@@ -81,5 +84,46 @@
             MessageContract converted = contract.ToContract();
             AssertMessageContract(contract, converted);
         }
+
+
+        [Fact]
+        public void MessageContractBaseToListMessageContractMultiple()
+        {
+            var whiteLabelClient = new WhiteLabelContractListMessageContract()
+            {
+                IsSuccess = false,
+                Error = new WhiteLables.GeneratedServices.ErrorContract()
+                {
+                    Children = new List<WhiteLables.GeneratedServices.ErrorContract>()
+                       {
+                           new WhiteLables.GeneratedServices.ErrorContract()
+                           {
+                                Message = "t1"
+                           },
+                           new WhiteLables.GeneratedServices.ErrorContract()
+                           {
+                                Message = "t2"
+                           },
+                           new WhiteLables.GeneratedServices.ErrorContract()
+                           {
+                                Message = "t3"
+                           }
+                       },
+                    EndUserMessage = "t0",
+                    FailedReasonType = WhiteLables.GeneratedServices.FailedReasonType.AccessDenied
+                }
+            };
+            ListMessageContract<string> converted = whiteLabelClient.ToListContract<string>();
+            Assert.Equal(whiteLabelClient.Error.Children.Count, converted.Error.Children.Count -1);
+        }
+
+        //[Fact]
+        //public void MessageContractGenericToMessageContract()
+        //{
+        //    object contract = (MessageContract<string>)FailedReasonType.InternalError;
+        //    MessageContract converted = contract.ToContract();
+        //    AssertMessageContract(contract, converted);
+        //}
+
     }
 }
