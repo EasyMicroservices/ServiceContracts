@@ -114,7 +114,7 @@ namespace EasyMicroservices.ServiceContracts.Tests
                 }
             };
             ListMessageContract<string> converted = whiteLabelClient.ToListContract<string>();
-            Assert.Equal(whiteLabelClient.Error.Children.Count, converted.Error.Children.Count -1);
+            Assert.Equal(whiteLabelClient.Error.Children.Count, converted.Error.Children.Count - 1);
         }
 
         //[Fact]
