@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -341,7 +340,12 @@ namespace EasyMicroservices.ServiceContracts
             return instance;
         }
 
-        internal static List<string> ToListStackTrace(this string stackTrace)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stackTrace"></param>
+        /// <returns></returns>
+        public static List<string> ToListStackTrace(this string stackTrace)
         {
             return stackTrace == null ? null : stackTrace.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
         }
